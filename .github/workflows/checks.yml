@@ -1,0 +1,36 @@
+name: Checks
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e '.[dev,images]'
+      - run: ruff check .
+      - run: python -m pytest -q
+
+  crosspoint-build:
+    # The real thing: build the latest CrossPoint release's parser and run the tests against it.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq cmake g++ libexpat1-dev zlib1g-dev
+      - run: pip install -e '.[dev]'
+      - run: python scripts/demo.py /tmp/demo --cache /tmp/cp-cache
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: python -m pytest -q tests/test_harness.py
+        env:
+          CROSSPOINT_CHECK_TEST_CACHE: /tmp/cp-cache

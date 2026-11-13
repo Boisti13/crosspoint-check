@@ -104,8 +104,10 @@ def latest_tag(cache, max_age=86400):
     except (OSError, ValueError, KeyError):
         pass
     try:
-        req = urllib.request.Request(LATEST, headers={'User-Agent': 'crosspoint-check',
-                                                      'Accept': 'application/vnd.github+json'})
+        headers = {'User-Agent': 'crosspoint-check', 'Accept': 'application/vnd.github+json'}
+        if os.environ.get('GITHUB_TOKEN'):  # optional, only to avoid GitHub's anonymous rate limit
+            headers['Authorization'] = 'Bearer ' + os.environ['GITHUB_TOKEN']
+        req = urllib.request.Request(LATEST, headers=headers)
         with urllib.request.urlopen(req, timeout=20) as r:
             tag = json.load(r)['tag_name']
     except Exception:
