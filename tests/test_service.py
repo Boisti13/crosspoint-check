@@ -61,7 +61,7 @@ def test_no_repair_only_reports(cfg, library, fake_harness):
     assert open(broken, 'rb').read() == before
     assert not os.path.exists(cfg.originals)
     # ... and a later scan with repair on picks it up, though the file did not change.
-    service.scan(cfg, force=True, log=lambda m: None)
+    service.scan(cfg, log=lambda m: None)
     assert statuses(cfg)[2]['status'] == 'repaired'
 
 
@@ -89,7 +89,7 @@ def test_large_chapter_is_a_note_unless_split_large(cfg, library, fake_harness):
     service.scan(cfg, log=lambda m: None)
     assert statuses(cfg)[1]['status'] == 'warning'
     cfg.split_large = True
-    service.scan(cfg, force=True, log=lambda m: None)
+    service.scan(cfg, log=lambda m: None)
     book = statuses(cfg)[1]
     assert book['status'] == 'repaired' and not book['warnings']
 

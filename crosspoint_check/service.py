@@ -81,7 +81,10 @@ def scan(cfg, repair=None, force=False, only=None, log=print):
                 continue
             old = store.book(book['id'])
             if old and not force and (old['size'], old['mtime'], old['tag']) == (book['size'], book['mtime'], tag):
-                continue
+                # Unchanged. Only a book that was reported while repairs were off gets another go.
+                waiting = old['status'] == 'failed' or (old['status'] == 'warning' and cfg.split_large)
+                if not (repair and waiting and not old['note']):
+                    continue
             try:
                 row = process(cfg, lib, tag, book, old, repair)
             except harness.HarnessError as e:
