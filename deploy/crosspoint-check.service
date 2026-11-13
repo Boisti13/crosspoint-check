@@ -1,0 +1,11 @@
+[Unit]
+Description=crosspoint-check: scan the library
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -m crosspoint_check scan
+WorkingDirectory=/opt/crosspoint-check
+Nice=10
+TimeoutStartSec=2h

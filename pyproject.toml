@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crosspoint-check"
+description = "Find and repair the EPUBs a CrossPoint e-reader cannot open, using the firmware's own parser"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = ["lxml>=4.9"]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+images = ["pillow>=9"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+crosspoint-check = "crosspoint_check.cli:main"
+
+[tool.setuptools]
+packages = ["crosspoint_check"]
+
+[tool.setuptools.dynamic]
+version = { attr = "crosspoint_check.__version__" }
+
+[tool.ruff]
+line-length = 125
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"crosspoint_check/agent.py" = ["B904"]
+"crosspoint_check/fixer.py" = ["E501", "B023"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

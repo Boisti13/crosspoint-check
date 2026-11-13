@@ -1,0 +1,13 @@
+[Unit]
+Description=crosspoint-check: status page
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 -m http.server 8080 --directory /var/lib/crosspoint-check/www
+DynamicUser=yes
+ProtectSystem=strict
+ProtectHome=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

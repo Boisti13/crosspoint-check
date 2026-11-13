@@ -1,0 +1,24 @@
+# crosspoint-check settings. Copy to /etc/crosspoint-check/config.toml.
+# Every setting but the library is optional; the values shown are the defaults.
+
+[library]
+# The Calibre library folder (the one with metadata.db), on this machine:
+path = "/calibre-library"
+# ... or a command that reaches the agent on another machine (see
+# docs/remote-library.md). Set exactly one of the two.
+# command = "ssh -i /etc/crosspoint-check/id_ed25519 root@library-host"
+
+[check]
+repair = true          # false: only report, never change the library
+crosspoint = "latest"  # or a release tag such as "2.0.0"
+large_kb = 300         # note chapter files above this size on the page (0 = off)
+split_large = false    # true: also split those files, even if the book opens
+max_kb = 100           # when a book is repaired, split chapter files above this size
+images = false         # true: rework pictures for a 480x800 e-paper screen (needs Pillow)
+
+[service]
+state = "/var/lib/crosspoint-check"   # parser build, originals, status page
+page_url = ""                         # address of the status page, sent with notifications
+
+[notify]
+webhook = ""           # POST a JSON message here when a book was repaired or cannot be
