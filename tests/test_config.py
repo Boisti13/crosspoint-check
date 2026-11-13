@@ -17,7 +17,7 @@ def test_defaults_and_overrides(tmp_path):
 
 def test_example_file_loads():
     cfg = config.load('config.example.toml')
-    assert cfg == config.Config(library_path='/calibre-library')
+    assert cfg == config.Config(library_path='/calibre-library', repair=False)
 
 
 @pytest.mark.parametrize('text, message', [

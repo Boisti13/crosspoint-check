@@ -28,5 +28,5 @@ install -m 644 "$here"/deploy/crosspoint-check.service "$here"/deploy/crosspoint
 systemctl daemon-reload
 systemctl enable -q --now crosspoint-check-web.service crosspoint-check.timer
 systemctl restart crosspoint-check-web.service
-echo "crosspoint-check $(crosspoint-check --version) installed."
-echo "Settings: /etc/crosspoint-check/config.toml   First scan: systemctl start crosspoint-check"
+echo "crosspoint-check $(/usr/local/bin/crosspoint-check --version) installed."
+echo "Settings: /etc/crosspoint-check/config.toml   Scan now: systemctl start crosspoint-check"

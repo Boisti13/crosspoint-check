@@ -1,5 +1,6 @@
 # crosspoint-check settings. Copy to /etc/crosspoint-check/config.toml.
-# Every setting but the library is optional; the values shown are the defaults.
+# Every setting but the library is optional; the values shown are the defaults,
+# except repair: this file starts with it off, so the first scans only report.
 
 [library]
 # The Calibre library folder (the one with metadata.db), on this machine:
@@ -9,7 +10,7 @@ path = "/calibre-library"
 # command = "ssh -i /etc/crosspoint-check/id_ed25519 root@library-host"
 
 [check]
-repair = true          # false: only report, never change the library
+repair = false         # true: replace books the reader refuses with a repaired copy
 crosspoint = "latest"  # or a release tag such as "2.0.0"
 large_kb = 300         # note chapter files above this size on the page (0 = off)
 split_large = false    # true: also split those files, even if the book opens
