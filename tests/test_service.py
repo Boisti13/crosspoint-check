@@ -112,4 +112,6 @@ def test_one_notification_per_scan(cfg, fake_harness, monkeypatch):
 
 def test_empty_page(tmp_path):
     store = Store(str(tmp_path / 's.db'))
-    assert 'No books checked yet' in page.render(store)
+    html = page.render(store)
+    assert 'No books checked yet' in html
+    assert '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,' in html

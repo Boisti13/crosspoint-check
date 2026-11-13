@@ -2,8 +2,19 @@
 import os
 import time
 from html import escape
+from urllib.parse import quote
 
 from . import __version__
+
+# Browser tab icon: an open book with a check mark, inline so the page stays one file.
+ICON_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+            '<rect width="64" height="64" rx="14" fill="#1f5fa8"/>'
+            '<path d="M32 20c-5-4-12-5-19-4v29c7-1 14 0 19 4 5-4 12-5 19-4V16c-7-1-14 0-19 4z" fill="#fff"/>'
+            '<path d="M32 20v29" stroke="#1f5fa8" stroke-width="2.5"/>'
+            '<circle cx="46" cy="46" r="13" fill="#2e7d4f" stroke="#fff" stroke-width="3"/>'
+            '<path d="M40 46l4.5 4.5L53 42" fill="none" stroke="#fff" stroke-width="3.5" '
+            'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+ICON = 'data:image/svg+xml,' + quote(ICON_SVG)
 
 ORDER = {'failed': 0, 'error': 1, 'repaired': 2, 'warning': 3, 'ok': 4}
 LABEL = {'failed': 'Cannot open', 'error': 'Not checked', 'repaired': 'Repaired', 'warning': 'Opens, large chapter',
@@ -80,6 +91,7 @@ def render(store):
     rest = sorted((b for b in books if b['status'] in ('warning', 'ok')), key=lambda b: ORDER[b['status']])
     parts = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
              '<meta name="viewport" content="width=device-width,initial-scale=1">',
+             '<link rel="icon" type="image/svg+xml" href="%s">' % ICON,
              '<title>crosspoint-check</title><style>%s</style></head><body><main>' % CSS,
              '<h1>crosspoint-check</h1>',
              '<p class="sub">Last scan %s%s</p>' % (

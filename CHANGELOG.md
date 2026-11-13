@@ -17,7 +17,8 @@ First version.
 - Report-only mode (`repair = false`, `scan --no-repair`); books reported
   that way are repaired once repairs are switched on.
 - Status page with every book as *opens*, *repaired*, *cannot open* or
-  *large chapter*, with chapter and reason, and a short history.
+  *large chapter*, with chapter and reason, a short history and a browser
+  tab icon.
 - Webhook notification, one per scan that repaired a book or couldn't.
 - Library on another machine through a single-file agent and a restricted
   SSH key (`deploy/ssh-gate.sh`, `docs/remote-library.md`).
