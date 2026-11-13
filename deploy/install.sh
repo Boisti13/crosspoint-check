@@ -11,7 +11,7 @@ here="$(cd "$(dirname "$0")/.." && pwd)"
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq python3 python3-lxml python3-pil git cmake g++ make ca-certificates openssh-client >/dev/null
+apt-get install -y -qq python3 python3-lxml python3-pil git cmake g++ make libexpat1-dev ca-certificates openssh-client >/dev/null
 
 install -d /opt/crosspoint-check /etc/crosspoint-check /var/lib/crosspoint-check/www
 rm -rf /opt/crosspoint-check/crosspoint_check
