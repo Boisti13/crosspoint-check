@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.1.0 — 2026-11-13
+
 First version.
 
 ### Added
@@ -26,11 +28,8 @@ First version.
   e-paper screen), `scan`, `page`.
 - Installer and systemd units for Debian/Ubuntu, `scripts/deploy.sh` for a
   Proxmox container.
-
-### Changed
-
-- README: two example setups, service next to the library and service on
-  another machine.
+- README with two example setups: service next to the library, and service
+  on another machine.
 
 ### Under the hood
 
