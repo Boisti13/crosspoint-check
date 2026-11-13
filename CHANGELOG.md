@@ -27,6 +27,11 @@ First version.
 - Installer and systemd units for Debian/Ubuntu, `scripts/deploy.sh` for a
   Proxmox container.
 
+### Changed
+
+- README: two example setups, service next to the library and service on
+  another machine.
+
 ### Under the hood
 
 - The library is only touched by `agent.py`: Calibre's `metadata.db` is read

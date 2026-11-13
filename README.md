@@ -88,6 +88,50 @@ All in `/etc/crosspoint-check/config.toml`
 | `[service] page_url` | | Address of the status page, sent along with notifications |
 | `[notify] webhook` | | URL that gets a JSON message when books were repaired or can't be |
 
+### Two example setups
+
+**Service next to the library.** Calibre-Web-Automated runs in Docker on the
+same machine, with `/opt/cwa/library` on the host mounted into it as
+`/calibre-library`. The config names the folder on the host:
+
+```toml
+[library]
+path = "/opt/cwa/library"
+
+[check]
+repair = true
+```
+
+**Service on another machine.** The library stays where it is (here inside a
+Proxmox container on the host `library-host`), and crosspoint-check runs
+somewhere else. The config names no folder at all, only how to reach the
+other side:
+
+```toml
+[library]
+command = "ssh -i /etc/crosspoint-check/id_ed25519 -o BatchMode=yes -o ConnectTimeout=15 -o UserKnownHostsFile=/etc/crosspoint-check/known_hosts root@library-host"
+
+[check]
+repair = true
+
+[service]
+page_url = "https://crosspoint-check.example"
+
+[notify]
+webhook = "http://homeassistant.local:8123/api/webhook/<your webhook id>"
+```
+
+The library folder is then set on `library-host`, in the last line of the
+gate script that the SSH key is restricted to:
+
+```sh
+exec pct exec 115 -- python3 /usr/local/lib/crosspoint-check/agent.py --library /opt/cwa/library "$@"
+```
+
+Only that script, the single-file agent and the restricted key live on the
+library's machine; [docs/remote-library.md](docs/remote-library.md) has the
+steps.
+
 ### Notifications
 
 One message per scan that repaired a book or found one it can't repair, sent
